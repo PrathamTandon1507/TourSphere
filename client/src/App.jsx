@@ -9,6 +9,8 @@ import ResetPassword from './pages/ResetPassword';
 import Account from './pages/Account';
 import MyTours from './pages/MyTours';
 import Checkout from './pages/Checkout';
+import CheckoutSuccess from './pages/CheckoutSuccess';
+import Billing from './pages/Billing';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -39,10 +41,26 @@ export default function App() {
           }
         />
         <Route
+          path="billing"
+          element={
+            <ProtectedRoute>
+              <Billing />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="checkout/:tourId"
           element={
             <ProtectedRoute>
               <Checkout />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="checkout-success"
+          element={
+            <ProtectedRoute>
+              <CheckoutSuccess />
             </ProtectedRoute>
           }
         />

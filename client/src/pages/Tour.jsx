@@ -29,7 +29,7 @@ export default function Tour() {
       setLoading(true);
       try {
         const { data } = await api(`/api/v1/tours/slug/${encodeURIComponent(slug)}`);
-        setTour(data.tour);
+        setTour(data.doc);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -198,7 +198,7 @@ export default function Tour() {
       <section className="section-cta">
         <div className="cta">
           <div className="cta__img cta__img--logo">
-            <img src="/img/logo-white.png" alt="Natours logo" />
+            <img src="/img/logo-white.png" alt="TourSphere logo" />
           </div>
           <img
             className="cta__img cta__img--1"

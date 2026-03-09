@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer__logo">
-        <img src="/img/logo-green.png" alt="Natour logo" />
+        <img src="/img/logo-green.png" alt="TourSphere logo" />
       </div>
       <ul className="footer__nav">
         <li>

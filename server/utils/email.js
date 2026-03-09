@@ -10,7 +10,7 @@ module.exports = class Email {
 
     const defaultFrom = 'TourSphere <no-reply@toursphere.com>'; // safe fallback
     const configuredFrom = (process.env.EMAIL_FROM || '').trim();
-    this.from = `PratT <${configuredFrom || defaultFrom}>`;
+    this.from = `TourSphere <${configuredFrom || defaultFrom}>`;
   }
 
   createBrevoTransport() {

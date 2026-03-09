@@ -23,10 +23,10 @@ app.use(cors({ origin: true, credentials: true }));
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.static(path.join(__dirname, 'public'))); //so now we can access any static files inside the public folder by simply doing /filename
+app.use(express.static(path.join(__dirname, '../public'))); 
 
 // If a production build of the React UI exists, serve it at root (SPA) while keeping API routes intact
-app.use(express.static(path.join(__dirname, 'client', 'dist')));
+app.use(express.static(path.join(__dirname, '../client', 'dist')));
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')); //gives info about the request being made
@@ -99,14 +99,15 @@ app.use(
         'https://cdnjs.cloudflare.com',
         'https://tile.openstreetmap.org',
         'https://*.tile.openstreetmap.org',
-        'https://api.razorpay.com',
-        'https://lumberjack.razorpay.com',
+        'https://api-preprod.phonepe.com',
+        'https://api.phonepe.com',
         'ws:',
       ],
       frameSrc: [
         "'self'",
-        'https://checkout.razorpay.com',
-        'https://api.razorpay.com',
+        'https://api-preprod.phonepe.com',
+        'https://api.phonepe.com',
+        'https://merch-preprod.phonepe.com',
       ],
       workerSrc: ["'self'", 'blob:'],
       objectSrc: [],
@@ -154,7 +155,7 @@ app.use('/api/v1/bookings', bookingRouter);
 // Serve React SPA for all frontend routes (does not apply to /api routes)
 app.get('*', (req, res, next) => {
   if (req.originalUrl.startsWith('/api')) return next();
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '../client', 'dist', 'index.html'));
 });
 
 app.all('*', (req, res, next) => {

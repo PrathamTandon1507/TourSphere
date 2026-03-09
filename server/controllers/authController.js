@@ -28,7 +28,7 @@ const createSendToken = (user, code, res) => {
     status: 'success',
     token,
     data: {
-      user,
+      doc: user,
     },
   });
 };
@@ -41,7 +41,8 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordChangedAt: req.body.passwordChangedAt,
     role: req.body.role,
   });
-  const url = `${req.protocol}://${req.get('host')}/me`;
+  const host = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'development' ? 'http://localhost:5173' : `${req.protocol}://${req.get('host')}`);
+  const url = `${host}/me`;
   await new Email(newUser, url).sendWelcome();
   //creating jwt
   createSendToken(newUser, 201, res);
@@ -171,7 +172,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     //   message,
     // });
     // 3 Send it to user's email
-    const host = process.env.FRONTEND_URL || `${req.protocol}://${req.get('host')}`;
+    const host = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'development' ? 'http://localhost:5173' : `${req.protocol}://${req.get('host')}`);
     const resetURL = `${host}/reset-password/${resetToken}`;
 
     await new Email(user, resetURL).sendPasswordReset();

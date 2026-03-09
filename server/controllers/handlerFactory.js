@@ -27,7 +27,7 @@ exports.updateOne = (Model) =>
     res.status(200).json({
       status: 'success',
       data: {
-        data: doc,
+        doc,
       },
     });
   });
@@ -38,7 +38,7 @@ exports.createOne = (Model) =>
     res.status(201).json({
       status: 'success',
       data: {
-        data: newDoc,
+        doc: newDoc,
       },
     });
   });

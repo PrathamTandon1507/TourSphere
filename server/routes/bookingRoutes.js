@@ -6,8 +6,9 @@ const router = express.Router();
 
 router.use(authController.protect);
 
-router.get('/create-order/:tourId', bookingController.createOrder);
+router.post('/create-order/:tourId', bookingController.createOrder);
 router.post('/verify-payment', bookingController.verifyPayment);
+router.get('/callback', bookingController.handlePhonePeCallback);
 router.get('/my-bookings', bookingController.getMyBookings);
 
 router.use(authController.restrictTo('admin', 'lead-guide'));

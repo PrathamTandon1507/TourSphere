@@ -1,14 +1,15 @@
+const path = require('path');
 const mongoose = require('mongoose');
 
 process.on('uncaughtException', (err) => {
-  //handles unhandled promise rejections globally
-  console.log(err.name, err.message);
+  //handles synchronous exceptions globally
+  console.log(err.name, err.message, err.stack);
   console.log('UNHANDLED Exception\nCLOSING ALL RESOURCES!!!!!!!!!!');
   process.exit(1);
 });
 
 const dotenv = require('dotenv');
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: path.join(__dirname, '../config.env') });
 // console.log(process.env);
 const app = require('./app');
 
@@ -39,14 +40,14 @@ mongoose
 //     console.log('ERROR OMG🐟🐟', err);
 //   }); //saved it in the db
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}... `);
 });
 
-process.on('uncaughtRejection', (err) => {
+process.on('unhandledRejection', (err) => {
   //handles unhandled promise rejections globally
-  console.log(err.name, err.message);
+  console.log(err.name, err.message, err.stack);
   console.log('UNHANDLED PROMISE REJECTION\nCLOSING ALL RESOURCES!!!!!!!!!!');
   server.close(() => {
     process.exit(1);
