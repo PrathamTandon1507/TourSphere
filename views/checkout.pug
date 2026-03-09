@@ -1,0 +1,24 @@
+extends base
+
+block content
+  main.main
+    .checkout-form
+      h2.heading-secondary.ma-bt-lg Confirm your booking
+      .card.ma-bt-lg
+        .card__header
+          h3= tour.name
+          p.card__subheading= tour.summary
+        .card__details
+          p
+            strong Duration: 
+            | #{tour.duration} days
+          p
+            strong Price: 
+            | ₹#{tour.price}
+          p.ma-bt-md
+            strong Total: 
+            | ₹#{tour.price}
+        .card__footer
+          button#book-tour-btn.btn.btn--green(data-tour-id=tour._id) Pay with Razorpay
+      p.ma-bt-sm
+        a(href=`/tour/${tour.slug}`) Back to tour

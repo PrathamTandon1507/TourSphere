@@ -1,0 +1,16 @@
+node_modules/
+.cache/
+
+.env
+config.env
+
+*.rc
+.eslintrc*
+.prettierrc*
+.npmrc
+
+client/node_modules/
+client/dist/
+
+.DS_Store
+Thumbs.db

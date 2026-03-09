@@ -1,0 +1,26 @@
+extends base
+
+block content
+  main.main
+    .my-tours
+      h2.heading-secondary.ma-bt-lg Your bookings
+      if bookings && bookings.length > 0
+        .card-container
+          each booking in bookings
+            .card
+              .card__header
+                .card__picture
+                  .card__picture-overlay &nbsp;
+                  img.card__picture-img(src=`/img/tours/${booking.tour.imageCover}`, alt=booking.tour.name)
+                h3.card__heading
+                  span= booking.tour.name
+                .card__details
+                  h4.card__sub-heading #{booking.tour.duration} day tour
+                  p.card__text Paid ₹#{booking.price}
+              .card__footer
+                a.btn.btn--green.btn--small(href=`/tour/${booking.tour.slug}`) View tour
+      else
+        p.ma-bt-lg You have no bookings yet. 
+          a(href='/') Browse tours
+      .ma-bt-lg
+        a.btn.btn--small(href='/') Back to home
