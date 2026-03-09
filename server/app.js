@@ -79,13 +79,7 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'", 'data:', 'blob:'],
-      scriptSrc: [
-        "'self'",
-        'https://unpkg.com',
-        'https://tile.openstreetmap.org',
-        'https://cdnjs.cloudflare.com',
-        'https://checkout.razorpay.com',
-      ],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https:', 'http:', '*'],
       styleSrc: [
         "'self'",
         "'unsafe-inline'",
@@ -111,14 +105,7 @@ app.use(
       ],
       workerSrc: ["'self'", 'blob:'],
       objectSrc: [],
-      imgSrc: [
-        "'self'",
-        'blob:',
-        'data:',
-        'https:',
-        'https://tile.openstreetmap.org',
-        'https://*.tile.openstreetmap.org',
-      ],
+      imgSrc: ["'self'", 'data:', 'blob:', 'https:', 'http:', '*'],
       fontSrc: [
         "'self'",
         'https:',
