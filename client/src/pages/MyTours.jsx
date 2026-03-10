@@ -67,19 +67,20 @@ export default function MyTours() {
             )}
 
             {!loading && !error && bookings.length > 0 && (
-              <div className="card-container" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mt-4">
                 {bookings.map((booking) => (
                   <div key={booking._id} className="card">
                     <div className="card__header">
                       <div className="card__picture">
                         <div className="card__picture-overlay">&nbsp;</div>
                         <img
-                          className="card__picture-img"
+                          className="card__picture-img object-cover w-full h-full"
                           src={`/img/tours/${booking.tour.imageCover}`}
                           alt={booking.tour.name}
+                          onError={(e) => { e.target.src = '/img/tours/tour-1-cover.jpg'; }}
                         />
                       </div>
-                      <h3 className="heading-tertirary">
+                      <h3 className="heading-tertirary text-xl">
                         <span>{booking.tour.name}</span>
                       </h3>
                     </div>

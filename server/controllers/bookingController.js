@@ -191,11 +191,12 @@ exports.handlePhonePeCallback = catchAsync(async (req, res, next) => {
       }
       res.redirect(`${frontendUrl}/my-tours?success=Booking confirmed!`);
     } else {
-      res.redirect(`${frontendUrl}/checkout?error=${encodeURIComponent(statusResponse.data.message || 'Payment failed')}`);
+      console.error('PhonePe verification failed:', statusResponse.data);
+      res.redirect(`${frontendUrl}/my-tours?error=${encodeURIComponent(statusResponse.data.message || 'Payment failed')}`);
     }
   } catch (err) {
-    console.error('PhonePe callback error:', err.message);
-    res.redirect(`${frontendUrl}/checkout?error=${encodeURIComponent('Payment verification failed')}`);
+    console.error('PhonePe callback fetch error:', err.response?.data || err.message);
+    res.redirect(`${frontendUrl}/my-tours?error=${encodeURIComponent('Payment verification failed')}`);
   }
 });
 
