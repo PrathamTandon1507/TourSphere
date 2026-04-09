@@ -43,12 +43,12 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const signup = async (name, email, password, passwordConfirm) => {
+  const signup = async (name, email, password, passwordConfirm, role) => {
     setLoading(true);
     try {
       await api('/api/v1/users/signup', {
         method: 'POST',
-        body: JSON.stringify({ name, email, password, passwordConfirm }),
+        body: JSON.stringify({ name, email, password, passwordConfirm, role }),
       });
       await loadUser();
       return true;

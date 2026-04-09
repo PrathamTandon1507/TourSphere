@@ -79,31 +79,31 @@ export default function Checkout() {
   }
 
   return (
-    <main className="py-16 bg-gradient-to-b from-slate-50 to-white min-h-screen">
-      <div className="max-w-2xl mx-auto px-4">
+    <main className="py-[8rem] bg-primary-50 min-h-screen relative">
+      <div className="max-w-[80rem] mx-auto px-4">
         {/* Header */}
-        <div className="mb-8">
-          <h2 className="text-4xl font-bold text-slate-900 mb-2">Review your booking</h2>
-          <p className="text-slate-600">Complete your tour booking with PhonePe</p>
+        <div className="mb-[4rem] text-center">
+          <h2 className="text-[2.25rem] uppercase font-bold bg-gradient-to-r from-primary-100 to-primary-300 [background-clip:text] text-transparent tracking-[0.1rem] leading-[1.3] inline-block mb-[1rem]">Review your booking</h2>
+          <p className="text-[1.8rem] text-grey-500">Complete your tour booking with PhonePe</p>
         </div>
 
         {/* Alerts */}
         {message && message.type === 'success' && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <p className="text-green-800 font-medium">{message.text}</p>
+          <div className="mb-8 p-[1.5rem] text-[1.4rem] font-normal text-center text-white bg-[#20bf6b] rounded-[5px] shadow-sm">
+            <p>{message.text}</p>
           </div>
         )}
         {message && message.type === 'error' && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-800 font-medium">{message.text}</p>
+          <div className="mb-8 p-[1.5rem] text-[1.4rem] font-normal text-center text-white bg-[#eb4d4b] rounded-[5px] shadow-sm">
+            <p>{message.text}</p>
           </div>
         )}
 
         {/* Booking Card */}
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-white rounded-[1rem] shadow-[0_2.5rem_8rem_2rem_rgba(0,0,0,0.06)] overflow-hidden">
           {/* Tour Image */}
           {tour.imageCover && (
-            <div className="h-64 bg-slate-200 overflow-hidden">
+            <div className="h-[30rem] bg-grey-400 overflow-hidden">
               <img 
                 src={`/img/tours/${tour.imageCover}`} 
                 alt={tour.name}
@@ -116,26 +116,26 @@ export default function Checkout() {
           )}
 
           {/* Booking Details */}
-          <div className="p-8">
-            <h3 className="text-2xl font-bold text-slate-900 mb-3">{tour.name}</h3>
-            <p className="text-slate-600 mb-8 leading-relaxed">{tour.summary}</p>
+          <div className="p-[4rem]">
+            <h3 className="text-[2rem] font-bold text-primary-1000 mb-[1.5rem] uppercase">{tour.name}</h3>
+            <p className="text-[1.6rem] text-grey-500 mb-[3rem] leading-relaxed italic">{tour.summary}</p>
 
             {/* Divider */}
-            <div className="border-t border-slate-200 my-8"></div>
+            <div className="border-t border-grey-400 my-[3rem]"></div>
 
             {/* Tour Details */}
-            <div className="space-y-4 mb-8">
-              <div className="flex justify-between items-center py-2">
-                <span className="text-slate-700 font-semibold">Duration:</span>
-                <span className="text-slate-900 text-lg">{tour.duration} days</span>
+            <div className="space-y-[1rem] mb-[4rem]">
+              <div className="flex justify-between items-center py-2 text-[1.6rem]">
+                <span className="text-grey-600 font-bold uppercase">Duration:</span>
+                <span className="text-primary-1000 font-normal">{tour.duration} days</span>
               </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="text-slate-700 font-semibold">Max Group Size:</span>
-                <span className="text-slate-900 text-lg">{tour.maxGroupSize} people</span>
+              <div className="flex justify-between items-center py-2 text-[1.6rem]">
+                <span className="text-grey-600 font-bold uppercase">Max Group Size:</span>
+                <span className="text-primary-1000 font-normal">{tour.maxGroupSize} people</span>
               </div>
-              <div className="flex justify-between items-center py-3 border-t-2 pt-4">
-                <span className="text-slate-900 font-bold text-lg">Total Price:</span>
-                <span className="text-primary-600 font-bold text-2xl">${tour.price}</span>
+              <div className="flex justify-between items-center py-[2rem] border-t border-grey-400 mt-4">
+                <span className="text-primary-1000 font-bold text-[1.8rem] uppercase">Total Price:</span>
+                <span className="text-primary-200 font-bold text-[2.4rem]">${tour.price}</span>
               </div>
             </div>
 
@@ -143,23 +143,23 @@ export default function Checkout() {
             <button
               onClick={handlePay}
               disabled={paying}
-              className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition flex items-center justify-center gap-2 ${ 
+              className={`w-full py-[1.5rem] px-[3rem] rounded-[10rem] font-bold text-white uppercase text-[1.6rem] transition-all flex items-center justify-center gap-2 ${ 
                 paying 
-                  ? 'bg-slate-400 cursor-not-allowed' 
-                  : 'bg-primary-600 hover:bg-primary-700 active:bg-primary-800'
+                  ? 'bg-grey-500 cursor-not-allowed' 
+                  : 'bg-primary-200 hover:bg-primary-100 hover:shadow-btn active:shadow-btn-active active:-translate-y-[1px]'
               }`}
             >
               {paying && (
-                <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
               )}
-              {paying ? 'Redirecting to PhonePe...' : 'Pay with PhonePe'}
+              {paying ? 'Redirecting...' : 'Pay with PhonePe'}
             </button>
 
             {/* Info */}
-            <p className="text-center text-sm text-slate-500 mt-6">
+            <p className="text-center text-[1.4rem] text-grey-500 mt-[2rem]">
               💳 Secure payment powered by PhonePe
             </p>
           </div>

@@ -39,23 +39,23 @@ export default function CheckoutSuccess() {
   }, [searchParams, navigate]);
 
   return (
-    <main className="flex items-center justify-center py-20 min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <div className="max-w-md w-full px-6 py-12 bg-white rounded-lg shadow-lg text-center">
+    <main className="bg-primary-50 min-h-screen py-[8rem] flex items-center justify-center relative">
+      <div className="bg-white rounded-[1rem] shadow-[0_2.5rem_8rem_2rem_rgba(0,0,0,0.06)] p-[5rem] text-center max-w-[50rem] w-full mx-[2rem]">
         {status === 'verifying' && (
           <>
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mb-4"></div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">Verifying Payment</h2>
-            <p className="text-slate-600">Please wait while we confirm your payment...</p>
-            <p className="text-xs text-slate-500 mt-4">You will be redirected shortly</p>
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-primary-200 mb-6"></div>
+            <h2 className="text-[2.25rem] uppercase font-bold text-primary-1000 mb-2">Verifying Payment</h2>
+            <p className="text-[1.6rem] text-grey-500">Please wait while we confirm your payment...</p>
+            <p className="text-[1.2rem] text-grey-400 mt-6 uppercase">You will be redirected shortly</p>
           </>
         )}
 
         {status === 'success' && (
           <>
-            <div className="mb-4 flex justify-center">
-              <div className="inline-block rounded-full bg-green-100 p-3">
+            <div className="mb-6 flex justify-center">
+              <div className="inline-block rounded-full bg-[#20bf6b] p-4 text-white">
                 <svg
-                  className="h-8 w-8 text-green-600"
+                  className="h-10 w-10"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -68,18 +68,18 @@ export default function CheckoutSuccess() {
                 </svg>
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-green-600 mb-2">Payment Successful!</h2>
-            <p className="text-slate-600 mb-2">{message}</p>
-            <p className="text-xs text-slate-500">Redirecting to My Tours...</p>
+            <h2 className="text-[2.25rem] uppercase font-bold text-[#20bf6b] mb-2">Payment Successful!</h2>
+            <p className="text-[1.8rem] text-grey-500 mb-2">{message}</p>
+            <p className="text-[1.2rem] text-grey-400 uppercase mt-4">Redirecting to My Tours...</p>
           </>
         )}
 
         {status === 'failed' && (
           <>
-            <div className="mb-4 flex justify-center">
-              <div className="inline-block rounded-full bg-red-100 p-3">
+            <div className="mb-6 flex justify-center">
+              <div className="inline-block rounded-full bg-[#eb4d4b] p-4 text-white">
                 <svg
-                  className="h-8 w-8 text-red-600"
+                  className="h-10 w-10"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -92,15 +92,15 @@ export default function CheckoutSuccess() {
                 </svg>
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-red-600 mb-2">Payment Failed</h2>
-            <p className="text-slate-600 mb-4">{message}</p>
+            <h2 className="text-[2.25rem] uppercase font-bold text-[#eb4d4b] mb-2">Payment Failed</h2>
+            <p className="text-[1.8rem] text-grey-500 mb-6">{message}</p>
             <button
               onClick={() => navigate('/my-tours')}
-              className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+              className="bg-primary-200 text-white uppercase text-[1.4rem] py-[1.25rem] px-[3rem] rounded-full transition-all duration-200 hover:bg-primary-100 hover:shadow-btn active:shadow-btn-active active:-translate-y-[1px] w-full"
             >
               Go to My Tours
             </button>
-            <p className="text-xs text-slate-500 mt-3">Redirecting in 5 seconds...</p>
+            <p className="text-[1.2rem] text-grey-400 uppercase mt-[2rem]">Redirecting in 5 seconds...</p>
           </>
         )}
       </div>
