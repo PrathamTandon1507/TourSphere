@@ -6,11 +6,16 @@ const handleCastErrorDB = (err) => {
 };
 
 const handleDuplicateFieldsDB = (err) => {
-  const field = Object.keys(err.keyValue)[0];
-  const value = Object.values(err.keyValue)[0];
+  const fields = Object.keys(err.keyValue);
+  
+  if (fields.includes('tour') && fields.includes('user')) {
+    return new AppError('You have already reviewed this tour!', 400);
+  }
 
+  const field = fields[0];
+  const value = Object.values(err.keyValue)[0];
   const message = `Duplicate ${field}: ${value}. Please use a unique value.`;
-  return new AppError(message, 400); // Changed from 404 to 400
+  return new AppError(message, 400);
 };
 
 const handleValidationDB = (err) => {

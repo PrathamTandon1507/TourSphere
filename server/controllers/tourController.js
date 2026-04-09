@@ -1,5 +1,5 @@
-/*eslint-disable*/
-
+const path = require('path');
+const fs = require('fs');
 const multer = require('multer');
 const sharp = require('sharp');
 const Tour = require('../models/tourModel');
@@ -57,40 +57,87 @@ exports.uploadTourImages = upload.fields([
   },
 ]);
 
+exports.parseTourData = (req, res, next) => {
+  const cleanAndParse = (val) => {
+    if (typeof val !== 'string') return val;
+    try {
+      // 1. Strip literal single/double quotes at Start/End if they exist
+      const cleaned = val.replace(/^['"]|['"]$/g, '').trim();
+      // 2. Parse the cleaned string
+      const parsed = JSON.parse(cleaned);
+      // 3. If still a string after one parse (double-stringified), parse again
+      if (typeof parsed === 'string') {
+        return JSON.parse(parsed.replace(/^['"]|['"]$/g, '').trim());
+      }
+      return parsed;
+    } catch (err) {
+      return val;
+    }
+  };
+
+  ['startLocation', 'locations', 'startDates'].forEach((key) => {
+    if (req.body[key]) {
+      req.body[key] = cleanAndParse(req.body[key]);
+      
+      // Explicitly ensure GeoJSON 'type: Point' for Mongoose and Map compatibility
+      if (key === 'startLocation' && req.body[key] && typeof req.body[key] === 'object') {
+        req.body[key].type = 'Point';
+      }
+      if (key === 'locations' && Array.isArray(req.body[key])) {
+        req.body[key] = req.body[key].map(loc => ({
+          ...loc,
+          type: 'Point'
+        }));
+      }
+    }
+  });
+  next();
+};
+
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
-  if (!req.files.imageCover || !req.files.images) return next();
+  if (!req.files || (!req.files.imageCover && !req.files.images)) return next();
 
-  //1. cover image
-  const imageCoverFilename = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
+  // Ensure directories exist
+  const tourPath = path.join(__dirname, '..', '..', 'public', 'img', 'tours');
+  if (!fs.existsSync(tourPath)) {
+    fs.mkdirSync(tourPath, { recursive: true });
+  }
 
-  await sharp(req.files.imageCover[0].buffer)
-    .resize(2000, 1333)
-    .toFormat('jpeg')
-    .jpeg({ quality: 90 })
-    .toFile(`public/img/tours/${imageCoverFilename}`);
+  // Use ID if available, otherwise use a combination of tour name and timestamp
+  const identifier = req.params.id || `${req.body.name?.toLowerCase().split(' ').join('-') || 'new-tour'}-${Date.now()}`;
 
-  req.body.imageCover = imageCoverFilename;
+  // 1. cover image
+  if (req.files.imageCover) {
+    const imageCoverFilename = `tour-${identifier}-cover.jpeg`;
 
-  //2. images []
-  req.body.images = [];
+    await sharp(req.files.imageCover[0].buffer)
+      .resize(2000, 1333)
+      .toFormat('jpeg')
+      .jpeg({ quality: 90 })
+      .toFile(path.join(tourPath, imageCoverFilename));
 
-  await Promise.all(
-    req.files.images.map(async (file, i) => {
-      const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
+    req.body.imageCover = imageCoverFilename;
+  }
 
-      await sharp(file.buffer)
-        .resize(2000, 1333)
-        .toFormat('jpeg')
-        .jpeg({ quality: 90 })
-        .toFile(`public/img/tours/${filename}`);
+  // 2. images []
+  if (req.files.images) {
+    req.body.images = [];
 
-      req.body.images.push(filename);
-    }),
+    await Promise.all(
+      req.files.images.map(async (file, i) => {
+        const filename = `tour-${identifier}-${i + 1}.jpeg`;
 
-    //we're awaiting Promise.all because images.map is returning an array of promises, so if this isnt awaited then func will automatically move to next middleware without awaiting
-  );
+        await sharp(file.buffer)
+          .resize(2000, 1333)
+          .toFormat('jpeg')
+          .jpeg({ quality: 90 })
+          .toFile(path.join(tourPath, filename));
 
-  console.log(req.body);
+        req.body.images.push(filename);
+      }),
+    );
+  }
+
   next();
 });
 

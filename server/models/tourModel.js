@@ -167,7 +167,9 @@ toursSchema.pre('save', function (next) {
 
 toursSchema.pre(/^find/, function (next) {
   this.start = Date.now();
-  this.find({ secretTour: { $ne: true } });
+  if (!this.getOptions().showSecretTours) {
+    this.find({ secretTour: { $ne: true } });
+  }
   next();
 }); //so now even if we findbyid or do any such result, this tour will not be shown since we have applied this to all find related funcs using regex
 

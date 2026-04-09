@@ -33,22 +33,22 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const limiter = rateLimit({
-  //implement max 100 req per hour per IP
-  max: 100,
+  // Increase limit for development/testing
+  max: 10000,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour!',
 });
 
-app.use('/api', limiter);
+// app.use('/api', limiter); 
 app.use(helmet()); //security http headers
 app.use(mongoSanitize()); //gets rid of all dollar signs and . in mongo so now email: {$gt: ""} cannot be used to do a nosql injection attack [this basically returned all items and gave admin privilege]
 
 app.use(
   express.json({
-    limit: '10kb',
+    limit: '10mb',
   }),
-); //middleware [reeading data from body into req.body, max size is 10kb]
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+); //middleware [reading data from body into req.body, max size is 10mb]
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
 app.use(
@@ -129,7 +129,7 @@ app.use(
 
 //routes
 
-// Keep legacy Pug views available under /pug (in case you need them)
+// Keep legacy Pug views available under /pug 
 app.use('/pug', viewRouter);
 
 app.use('/api/v1/tours', tourRouter);

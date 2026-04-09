@@ -1,5 +1,5 @@
-const path = require('path');
 const mongoose = require('mongoose');
+require('./config/loadEnv');
 
 process.on('uncaughtException', (err) => {
   //handles synchronous exceptions globally
@@ -8,8 +8,6 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-const dotenv = require('dotenv');
-dotenv.config({ path: path.join(__dirname, '../config.env') });
 // console.log(process.env);
 const app = require('./app');
 

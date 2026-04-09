@@ -1,5 +1,5 @@
-/*eslint-disable*/
-
+const path = require('path');
+const fs = require('fs');
 const multer = require('multer');
 const sharp = require('sharp');
 const User = require('../models/userModel');
@@ -38,11 +38,17 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
 
   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
+  // Ensure directory exists
+  const userPath = path.join(__dirname, '..', '..', 'public', 'img', 'users');
+  if (!fs.existsSync(userPath)) {
+    fs.mkdirSync(userPath, { recursive: true });
+  }
+
   await sharp(req.file.buffer)
     .resize(500, 500)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
-    .toFile(`public/img/users/${req.file.filename}`);
+    .toFile(path.join(userPath, req.file.filename));
 
   next();
 });
