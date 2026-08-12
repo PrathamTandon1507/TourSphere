@@ -17,8 +17,9 @@ const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
 
-// Enable CORS to allow React frontend to call API during development
+// Enable CORS to allow React frontend on Vercel to call API with credentials
 app.use(cors({ origin: true, credentials: true }));
+app.options('*', cors());
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
